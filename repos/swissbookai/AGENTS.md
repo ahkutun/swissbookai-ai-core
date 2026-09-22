@@ -1,4 +1,4 @@
-<!-- ai-core map: generated 2026-09-22 from 37e12b4; the section "Rules of this repository" is written by people and kept -->
+<!-- ai-core map: generated 2026-09-22 from 0db4830; the section "Rules of this repository" is written by people and kept -->
 # swissbookai — the map
 
 ## What it is
@@ -13,11 +13,11 @@ SwissBooks AI is a self-hosted accounting platform for Swiss fiduciary offices: 
 - `packages/ports/` — persistence contracts (`KontoRepository`, `NumberAllocator`); adapters live in `packages/db/src/repositories/`
 - `packages/swiss/` — CH locale: money arithmetic, VAT, chart of accounts, cantons, QR-bill, eCH-0217, pain.001
 - `packages/finance/` — country-neutral analysis (scoring, valuation, forecast, reconciliation)
-- `packages/llm/`, `packages/ai-prompts/` — multi-provider LLM client; prompts, output schemas, `TASK_TIER` and prices in `packages/ai-prompts/src/models.ts`
+- `packages/llm/`, `packages/ai-prompts/` — multi-provider LLM client; prompts, output schemas, `AiTask`, `TASK_TIER` and prices in `packages/ai-prompts/src/models.ts`
 - `packages/i18n/` — messages for de, en, fr, it in `packages/i18n/src/messages/`
 - `packages/{cloud,email,secrets,storage,config}/` — OAuth, mail, AES-256-GCM at rest, FS/S3 storage, shared lint config
 - `deploy/`, `release/`, `.github/workflows/release.yml` — Helm chart, Caddy, compose; `release/release.sh` mints the release tag and pushes the deploy ref
-- `scripts/` — `dev-up.mjs` (pnpm start), `smoke.mjs`, `backup.sh`
+- `scripts/` — `check.sh` (`check.ps1` on Windows) is the one check entry point; `dev-up.mjs` (pnpm start), `smoke.mjs`, `backup.sh`
 - `docs/`, `ARCHITECTURE.md`, `CLAUDE.md`, `README.md` — decisions, rules, setup
 
 ## Build, check, run
@@ -26,6 +26,7 @@ pnpm install
 cp .env.example .env
 pnpm db:reset
 pnpm dev
+scripts/check.sh
 pnpm typecheck
 pnpm lint
 pnpm test
@@ -36,7 +37,7 @@ pnpm db:migrate
 pnpm db:deploy
 pnpm --filter @swissbooks/api test:e2e
 pnpm --filter @swissbooks/web test:e2e
-There is no CI check pipeline; the four gates above are run by hand before every commit. The only workflow is `release.yml`, dispatched manually with version, channel and stage.
+There is no CI check pipeline. `scripts/check.sh` runs the four gates (typecheck, lint, test, build) in order, stops at the first red one, and is what the pre-push hook runs. `pnpm db:reset` drops the schema and is not a check. The only workflow is `release.yml`, dispatched manually with version, channel and stage.
 
 ## Where to add things
 | what is added | where it goes and where it is registered |
