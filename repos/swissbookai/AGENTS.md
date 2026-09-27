@@ -1,4 +1,4 @@
-<!-- ai-core map: generated 2026-09-22 from 0db4830; the section "Rules of this repository" is written by people and kept -->
+<!-- ai-core map: generated 2026-09-27 from e637838; the section "Rules of this repository" is written by people and kept -->
 # swissbookai — the map
 
 ## What it is
@@ -6,7 +6,7 @@ SwissBooks AI is a self-hosted accounting platform for Swiss fiduciary offices: 
 
 ## Shape
 - `apps/api/` — NestJS 11 on Fastify, prefix `/api/v1`; entry `apps/api/src/main.ts`, modules wired in `apps/api/src/app.module.ts`, one feature per `apps/api/src/modules/<feature>/`
-- `apps/web/` — Next.js 15 App Router; route groups `apps/web/app/(staff)`, `(client)`, `(auth)`; all API calls through `apps/web/lib/api.ts`
+- `apps/web/` — Next.js 15 App Router; entry `apps/web/app/layout.tsx`, route groups `apps/web/app/(staff)`, `(client)`, `(auth)`; all API calls through `apps/web/lib/api.ts`
 - `apps/worker/` — BullMQ processors; entry `apps/worker/src/main.ts`, one queue per `apps/worker/src/processors/*.processor.ts`
 - `packages/schemas/` — Zod DTOs and enums, the single source of truth for API and web
 - `packages/db/` — Drizzle schema `packages/db/src/schema/*`, migrations `packages/db/drizzle/`, RLS and seed under `packages/db/src/scripts/` and `packages/db/sql/`
